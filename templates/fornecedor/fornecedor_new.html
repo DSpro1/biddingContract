@@ -39,6 +39,11 @@
                         <div class="mb-3">
                             <label for="id_cnpj" class="form-label">CNPJ</label>
                             {{ form.cnpj }}
+                            {% if form.cnpj.errors %}
+                            <div class="alert-danger pt-1 col-auto" role="alert">
+                            {{ form.cnpj.errors }}
+                            </div>
+                    {% endif %}
                         </div>
                         <div class="mb-3">
                             <label for="id_endereco" class="form-label">Endereço</label>
@@ -89,9 +94,9 @@
     $('#cnpj').mask('00.000.000/0000-00', {reverse: true});
     $('#phone').mask('(00) 00000-0000');
     $('#cep').mask('00000-000');
-    {% comment %} $("#uf").on("input", function() {
+    $("#uf").on("input", function() {
         var valor = $(this).val().toUpperCase();
         $(this).val(valor);
-      }); {% endcomment %}
+      });
 </script>
 {% endblock %}

@@ -296,6 +296,7 @@ def fornecedor_new(request):
             return redirect('biddingContracts:cadContrato', fornecedor_id = fornecedor.id)
         else:
             print('ocorreu um erro no fomulario', form.errors)
+            return render(request, 'fornecedor/fornecedor_new.html', {'form': form})
     else:
         form = formFornecedor()
         return render(request, 'fornecedor/fornecedor_new.html', {'form': form})

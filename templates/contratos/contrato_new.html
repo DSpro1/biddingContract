@@ -108,7 +108,8 @@
 
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js"></script>
 
 <script>
   
@@ -128,4 +129,9 @@
         modal.hide();
     });
 </script> 
+
+<script>
+    $('#num').mask('00/0000', {placeholder: ''});
+</script>
 {% endblock %}
+

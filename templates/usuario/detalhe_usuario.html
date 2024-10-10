@@ -1,0 +1,67 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+  <div class="d-flex">
+    {% include "sidebar.html" %}
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-8 offset-md-2">
+            {% include "messages.html" %}
+            <div class="card shadow-sm">
+              <div class="card-header bg-dark text-white">
+                <h2 class="mb-0">Perfil do Usuário</h2>
+              </div>
+              <div class="card-body">
+                <table class="table table-borderless">
+                  <tbody>
+                    <tr>
+                      <th scope="row" class="text-muted">Nome de Usuário</th>
+                      <td>{{ usuario.username }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-muted">Email Atual</th>
+                      <td>{{ usuario.email }}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row" class="text-muted">Alterar Senha</th>
+                      <td><a href="{% url 'usuarios:password_reset' %}" class="btn btn-link">Alterar Senha</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card mt-4 shadow-sm">
+              <div class="card-header bg-dark text-white">
+                <h3 class="mb-0">Alterar Email</h3>
+              </div>
+              <div class="card-body">
+                <form method="post" class="needs-validation" novalidate>
+                  {% csrf_token %}
+                  <div class="form-group">
+                    {{ email_form.email.label_tag }}
+                    {{ email_form.email }}
+                    <div class="invalid-feedback">Por favor, insira um email válido.</div>
+                  </div>
+                  <button type="submit" class="btn btn-success mt-3 w-100">Atualizar Email</button>
+                  <a href="{% url "biddingContracts:index" %}" class="btn btn-secondary mt-3 w-100">Voltar</a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <style>
+    .table-borderless th {
+      width: 30%;
+      white-space: nowrap;
+    }
+    .needs-validation .form-group input:invalid {
+      border-color: #dc3545;
+    }
+    .needs-validation .form-group input:valid {
+      border-color: #28a745;
+    }
+  </style>
+{% endblock %}

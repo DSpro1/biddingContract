@@ -20,5 +20,7 @@ urlpatterns = [
     path('listar/membros-secretaria/', views2.ListMemberView.as_view(), name='list_member'),
     #path('cadastro/membros-secretaria/<int:pk>/update/', views2.update_user_secret.as_view(), name='cad_update'),
 
+    # Detalhe do usuário
+    path('dashboard/usuario/<int:pk>/', views2.DetailMemberView.as_view(), name="detail_member"),
 ]
 

@@ -1,5 +1,7 @@
 from django import forms
 from biddingContracts.models import Secretaria
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -114,3 +116,14 @@ class CadastroForms(forms.Form):
                 raise forms.ValidationError("Senhas não são iguais")
             else:
                 return senha_confirme
+            
+            
+            
+class UpdateEmailForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+    

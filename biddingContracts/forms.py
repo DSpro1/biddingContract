@@ -202,7 +202,8 @@ class formContrato(forms.ModelForm):
                 attrs={
                     "type": "text",
                     "class": "form-control",
-                    "placeholder": "Número do Contrato"
+                    "placeholder": "Número do Contrato",
+                    "id": "num",
                 }
             ),
             "assuntoDetalhado": forms.Textarea(

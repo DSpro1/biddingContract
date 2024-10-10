@@ -53,7 +53,20 @@
             </a>
         </li>
 
-        {% if perms.biddingContracts.add_secretaria %} <!-- Visualiza somente com a permissão de criar secretaria -->
+        {% comment %} <a href="{% url "usuarios:detail_member" user.pk %}">teste</a> {% endcomment %}
+
+    
+        <li class="nav-item mb-3">
+            <div class="d-flex flex-column align-items-center">
+                <a class="nav-link text-white" href="{% url "usuarios:detail_member" user.pk %}">
+                    <i class="fa-solid fa-user" title="Menu Pessoal"></i> 
+                    <span class="nav-text text-white small">Menu do usuário</span> 
+                </a>
+            </div>
+        </li>
+       
+
+        {% if perms.auth.add_user %} <!-- Visualiza somente com a permissão de criar secretaria -->
         <li class="nav-item mb-3">
             <div class="d-flex flex-column align-items-center">
                 <a class="nav-link text-white" href="{% url 'usuarios:cad_user' %}">
@@ -64,7 +77,7 @@
         </li>
         {% endif %}
 
-        {% if perms.biddingContracts.add_user %} <!-- Visualiza somente com a permissão de criar secretaria -->
+        {% if perms.auth.view_user %} <!-- Visualiza somente com a permissão de criar secretaria -->
         <li class="nav-item mb-3">
             <div class="d-flex flex-column align-items-center">
                 <a class="nav-link text-white" href="{% url 'usuarios:list_member' %}">
