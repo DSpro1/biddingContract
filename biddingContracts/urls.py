@@ -51,6 +51,6 @@ urlpatterns = [
     path('teste2/', views_dash.contrato_valor_por_mes, name="teste2"),
 
     # Excluídos
-    path('excluidos/', views.registros_excluidos, name="excluidos")
+    path('excluidos/', views.ListRegister.as_view(), name="excluidos")
 
 ]

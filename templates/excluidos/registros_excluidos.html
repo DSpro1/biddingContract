@@ -9,6 +9,104 @@
         {% include "messages.html" %}
         <h2 class="text-center mb-4">Lista de Registros Excluídos</h2>
         {% if registros %}
+        <nav class="navbar navbar-expand-lg mb-3"> <!-- Início do navbar -->
+            <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <form action="?" method="GET">
+                        <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Modelo:
+                              </a>
+                              <div class="dropdown-menu p-3 collapse" id="filtro-fornecedor">
+                                  <div class="d-flex">
+                                      <label for=""><strong>Pesquisar Modelos:</strong></label>
+                                  </div>
+                                  <div class="input-group d-flex flex-column">
+                                      <div class="d-flex"><input type="text" class="form-control w-100" name="modelos" id="" value="{{ request.GET.modelos }}"></div>
+                                      <div class="d-flex">
+                                          <button class="btn btn-success mt-2" type="submit">
+                                              Buscar
+                                          </button>
+                                      </div>
+                                      <div class="d-flex">
+                                          <a class="btn btn-light mt-2"  href=".">Limpar Campo</a>
+                                      </div>
+                                  </div>
+                              </div> 
+                        </li>
+                      </form> <!-- Fim colapse n° de modelo -->
+
+                      <form action="?" method="GET">
+                        <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Usuário:
+                              </a>
+                              <div class="dropdown-menu p-3 collapse" id="filtro-fornecedor">
+                                  <div class="d-flex">
+                                      <label for=""><strong>Pesquisar Usuários:</strong></label>
+                                  </div>
+                                  <div class="input-group d-flex flex-column">
+                                      <div class="d-flex"><input type="text" class="form-control w-100" name="usuarios" id="" value="{{ request.GET.usuario }}"></div>
+                                      <div class="d-flex">
+                                          <button class="btn btn-success mt-2" type="submit">
+                                              Buscar
+                                          </button>
+                                      </div>
+                                      <div class="d-flex">
+                                          <a class="btn btn-light mt-2"  href=".">Limpar Campo</a>
+                                      </div>
+                                  </div>
+                              </div> 
+                        </li>
+                      </form> <!-- Fim colapse de Usuários -->
+
+                      <form action="?" method="GET">
+                        <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Datas:
+                              </a>
+                              <div class="dropdown-menu p-3 collapse" id="filtro-fornecedor">
+                                  <div class="d-flex">
+                                      <label for=""><strong>Pesquisar Datas:</strong></label>
+                                  </div>
+                                  <div class="input-group d-flex flex-column">
+                                      <div class="d-flex"><input type="text" class="form-control w-100" name="datas" id="pesq_datas" value="{{ request.GET.datas }}"></div>
+                                      <div class="d-flex">
+                                          <button class="btn btn-success mt-2" type="submit">
+                                              Buscar
+                                          </button>
+                                      </div>
+                                      <div class="d-flex">
+                                          <a class="btn btn-light mt-2"  href=".">Limpar Campo</a>
+                                      </div>
+                                  </div>
+                              </div> 
+                        </li>
+                      </form> <!-- Fim colapse datas -->
+
+                    <div class="d-flex align-items-center me-2">
+                        <a class="text-muted" style="text-decoration:none;" href="."><i title="Resetar página" class="fa-solid fa-arrows-rotate"></i></a> <!-- ícone de resetar página -->
+                        
+                    </div>
+                </ul> 
+              </div>
+            </div>
+            
+            {% if registros %}
+                <div class="d-flex ">
+                    <p class="text-muted small">{{ registros.count }} Registros(s) Excluído(s)</p>
+                </div>
+            {% else %}
+                <div class="d-flex">
+                    <p class="text-muted small">Nenhum Registro Existente</p>
+                </div>
+            {% endif %}
+        </nav>   <!-- Fim do navbar -->
+        
             <div class="row">
                 <div class="col-md-12">
                     <table class="table">
@@ -28,7 +126,7 @@
                                     <td class="align-middle" style="font-size:14px;">{{ registro.modelo }}</td>
                                     <td class="align-middle" style="font-size:14px;">{{ registro.dados_excluidos|safe }}</td>
                                     <td class="align-middle" style="font-size:14px;">{{ registro.usuario }}</td>
-                                    <td class="align-middle" style="font-size:14px;">{{ registro.data_exclusao }}</td> <!-- Supondo que você tenha um campo de data de exclusão -->
+                                    <td class="align-middle" style="font-size:14px;">{{ registro.data_exclusao }}</td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -39,7 +137,7 @@
                 <a class="btn btn-secondary" href="{% url 'biddingContracts:index' %}">Voltar</a>
             </div>
         {% else %}
-            <div class="d-flex justify-content-center align-items-center">
+            <div class="d-flex justify-content-center align-items-center flex-column">
                 <p class="text-center text-uppercase text-dark">Nenhum registro excluído encontrado!</p>
                 <a class="btn btn-secondary" href="{% url 'biddingContracts:index' %}">Voltar</a>
             </div>
@@ -49,7 +147,13 @@
 {% endblock %}
 
 {% block javascript %}
-    <script>
-        // Se você precisar de algum JavaScript específico, adicione aqui
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js"></script>
+
+
+<script>
+    $('#pesq_proc').mask('00/0000', {placeholder: ''});
+    //$('#pesq_datas').mask('00/00/0000', {placeholder: ''});
+    
+</script>
 {% endblock %}

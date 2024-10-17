@@ -99,6 +99,32 @@ class Contrato(models.Model):
         # Verifica se a data final do contrato já passou
         return self.dataFinal < timezone.now().date()
     
+    def delete(self, usuario=None, using=None, keep_parents=False):
+    
+        print("Método delete chamado")
+        try:
+            # Armazenar os dados a serem excluídos
+            dados_excluidos = {}
+            for field in self._meta.get_fields():
+                if not field.is_relation:
+                    value = getattr(self, field.name)
+                    if isinstance(value, date):
+                        value = value.isoformat()  # Formato YYYY-MM-DD
+                    dados_excluidos[field.name] = value
+            
+            # Criar o registro da exclusão no modelo RegistroExcluido
+            RegistroExcluido.objects.create(
+                modelo=self.__class__.__name__,
+                dados_excluidos=dados_excluidos,
+                usuario=usuario  # Passar o usuário que fez a exclusão
+            )
+            print("Registro Excluido criado com sucesso!")
+        except Exception as e:
+            print(f"Erro ao registrar dados excluídos: {e}") 
+
+        # Chama o método de exclusão do pai
+        super().delete(using, keep_parents)
+    
 #Secretaria
 class Secretaria(models.Model):
     nome = models.CharField(max_length=200, verbose_name="Nome da secretaria", null=False, blank=False)
@@ -111,6 +137,33 @@ class Secretaria(models.Model):
     class Meta:
         verbose_name = "Secretaria"
         verbose_name_plural = "Secretarias"
+
+
+    def delete(self, usuario=None, using=None, keep_parents=False):
+    
+        print("Método delete chamado")
+        try:
+            # Armazenar os dados a serem excluídos
+            dados_excluidos = {}
+            for field in self._meta.get_fields():
+                if not field.is_relation:
+                    value = getattr(self, field.name)
+                    if isinstance(value, date):
+                        value = value.isoformat()  # Formato YYYY-MM-DD
+                    dados_excluidos[field.name] = value
+            
+            # Criar o registro da exclusão no modelo RegistroExcluido
+            RegistroExcluido.objects.create(
+                modelo=self.__class__.__name__,
+                dados_excluidos=dados_excluidos,
+                usuario=usuario  # Passar o usuário que fez a exclusão
+            )
+            print("Registro Excluido criado com sucesso!")
+        except Exception as e:
+            print(f"Erro ao registrar dados excluídos: {e}") 
+
+        # Chama o método de exclusão do pai
+        super().delete(using, keep_parents)
 
 class Tipo(models.TextChoices):
     PRESTACAO_SERVICO = "prestacao_servico", "Prestação de Serviço"

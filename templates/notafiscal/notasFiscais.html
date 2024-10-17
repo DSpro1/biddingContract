@@ -85,7 +85,7 @@
           </table>
       <div class="d-flex justify-content-center flex-row-reverse gap-3">
         <a href="{% url "biddingContracts:index" %}" class="btn btn-dark">Voltar</a>
-        <a href="{% url "biddingContracts:new_notas" 1 %}" class="btn btn-success">+ Adicionar</a>
+        {% comment %} <a href="{% url "biddingContracts:new_notas" is_contract %}" class="btn btn-success">+ Adicionar</a> {% endcomment %} <!-- Não acho viável um botão que leve a uma opção sabendo que existe duas -->
       </div>
   </div>
 </div>

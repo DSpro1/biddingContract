@@ -234,7 +234,8 @@ class ContractDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView
 
         # Só excluir o contrato se NÃO houver outros contratos relacionados ao mesmo fornecedor e à mesma licitação
         if not outro_contrato_fornecedor and not outro_contrato_licitacao:
-            contrato.delete()
+            self.object.delete(usuario=self.request.user)
+            #contrato.delete() # O método de excluir já é chamado na linha de cima
             messages.success(self.request, 'Contrato excluído com sucesso!')
             return redirect(self.get_success_url())
         else:
@@ -490,17 +491,26 @@ class ARPsDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     template_name = "ARPs/ata_delete.html"
     context_object_name = "ata"
     permission_required = ["biddingContracts.delete_ataregistropreco"]
+    
+    
+    
+    def get(self, request, *args, **kwargs):
+        # Exibir a página de confirmação
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        # Chama o método delete para excluir o objeto
+        return self.delete(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         # Obtém o objeto a ser excluído
         self.object = self.get_object()
-        print(f"@@@@@@@@@ VEIO AQIU")
         
-        # Chama o método delete no objeto, passando o usuário da requisição
-        self.object.delete(usuario=request.user)
+        # Chama o método delete no objeto
+        self.object.delete(usuario=self.request.user)
         
         # Exibe uma mensagem de sucesso e redireciona
-        messages.success(self.request, 'ARP excluída com sucesso!')
+        messages.success(self.request, 'Arp excluída com sucesso!')
         return redirect(self.get_success_url())
 
     def get_success_url(self):
@@ -890,12 +900,71 @@ class SecretaryDeleteView(LoginRequiredMixin, DeleteView):
     context_object_name = "sec"
     #permission_required = ["biddingContracts.delete_secretaria"]
 
-    def get_success_url(self):
+    def get(self, request, *args, **kwargs):
+        # Exibir a página de confirmação
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        # Chama o método delete para excluir o objeto
+        return self.delete(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        # Obtém o objeto a ser excluído
+        self.object = self.get_object()
+        
+        # Chama o método delete no objeto
+        self.object.delete(usuario=self.request.user)
+        
+        # Exibe uma mensagem de sucesso e redireciona
         messages.success(self.request, 'Secretaria excluída com sucesso!')
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
         return reverse_lazy("biddingContracts:list_secretarias")
     
 
+
+# def registros_excluidos(request):
+#     registros = RegistroExcluido.objects.all()
+#     return render(request, 'excluidos/registros_excluidos.html', {'registros': registros})
+
+
 # View para exibir template dos dados excluídos
-def registros_excluidos(request):
-    registros = RegistroExcluido.objects.all()
-    return render(request, 'excluidos/registros_excluidos.html', {'registros': registros})
+class ListRegister(ListView):
+    model = RegistroExcluido
+    template_name = "excluidos/registros_excluidos.html"
+    context_object_name = "registros"
+    # paginate_by = 10
+    # ordering = ['-id']
+    #permission_required = ["biddingContracts.list_registroexcluido"]
+    
+    
+    # Adicionando filtros ao object_list através do get_queryset
+    def get_queryset(self):
+        txt_modelo = self.request.GET.get("modelos")
+        txt_usuario = self.request.GET.get("usuarios")
+        txt_datas = self.request.GET.get("datas")
+        
+        queryset = RegistroExcluido.objects.all()
+        
+        
+        if txt_modelo:
+            queryset = RegistroExcluido.objects.filter(modelo__icontains=txt_modelo)
+            return queryset
+        
+        elif txt_usuario:
+            queryset = RegistroExcluido.objects.filter(usuario__username__icontains=txt_usuario)
+            return queryset
+        
+        elif txt_datas:
+            try:
+                data_formatada = datetime.strptime(txt_datas, '%d/%m/%Y').date()
+                queryset = RegistroExcluido.objects.filter(data_exclusao=data_formatada)
+                return queryset
+            except ValueError:
+                messages.error(self.request, 'Data inválida! Por favor, insira uma data no formato dd/mm/yyyy.')
+                return redirect('biddingContracts:excluidos')      
+        else:
+            queryset = RegistroExcluido.objects.all()
+        return queryset
+        
