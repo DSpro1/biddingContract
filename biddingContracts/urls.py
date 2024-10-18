@@ -50,8 +50,10 @@ urlpatterns = [
     # Dashboard
     path('teste/', views_dash.retorna_total_valores, name="teste"),
     path('teste2/', views_dash.contrato_valor_por_mes, name="teste2"),
+    path('teste3/', views_dash.renderizar, name="renderizardash"),
 
     # Excluídos
     path('excluidos/', views.ListRegister.as_view(), name="excluidos")
+    
 
 ]

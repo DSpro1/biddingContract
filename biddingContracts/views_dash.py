@@ -62,3 +62,8 @@ def contrato_valor_por_mes(request):
 
     # return JsonResponse(data_json)
     return render(request, 'dash/dash.html', {'data': data, 'labels': labels})
+
+
+
+def renderizar(request):
+    return render(request, "dash/dash.html")
