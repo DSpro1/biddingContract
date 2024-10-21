@@ -122,7 +122,7 @@
             <div class="d-flex flex-column align-items-center">
                 <a class="nav-link text-white {% if request.resolver_match.url_name == 'list_secretarias' and request.resolver_match.namespace == 'biddingContracts' %}active{% endif %}" 
                    href="{% url 'biddingContracts:list_secretarias' %}">
-                    <i class="fa-solid fa-table-list" title="Listar Secretarias"></i> 
+                    <i class="fa-solid fa-list-ol" title="Listar Secretarias"></i> 
                     <span class="nav-text text-white small">Listar Secretarias</span> 
                 </a>
             </div>
@@ -146,7 +146,7 @@
             <div class="d-flex flex-column align-items-center">
                 <a class="nav-link text-white {% if request.resolver_match.url_name == 'contratos' and request.resolver_match.namespace == 'biddingContracts' %}active{% endif %}" 
                    href="{% url 'biddingContracts:contratos' %}">
-                    <i class="fa-solid fa-list" title="Listar Contratos"></i>
+                    <i class="fa-solid fa-list-ol" title="Listar Contratos"></i>
                     <span class="nav-text text-white small">Listar Contratos</span>
                 </a>
             </div>
@@ -210,7 +210,7 @@
             <div class="d-flex flex-column align-items-center">
                 <a class="nav-link text-white {% if request.resolver_match.url_name == 'list_bidding' and request.resolver_match.namespace == 'biddingContracts' %}active{% endif %}" 
                    href="{% url 'biddingContracts:list_bidding' %}">
-                    <i class="fa-solid fa-list-check" title="Listar Licitações"></i>
+                    <i class="fa-solid fa-list-ol" title="Listar Licitações"></i>
                     <span class="nav-text text-white small">Listar Licitações</span>
                 </a>
             </div>
@@ -243,7 +243,7 @@
         <li class="nav-item mb-3">
             <a class="nav-link text-white {% if request.resolver_match.url_name == 'atas' and request.resolver_match.namespace == 'biddingContracts' %}active{% endif %}" 
                    href="{% url 'biddingContracts:atas' %}">
-                <i class="fa-solid fa-book" title="Listar Atas de Registros de Preços"></i>
+                <i class="fa-solid fa-list-ol" title="Listar Atas de Registros de Preços"></i>
                 <span class="nav-text text-white small">Listar ARPs</span>
             </a>
         </li>

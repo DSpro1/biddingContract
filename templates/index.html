@@ -193,8 +193,10 @@ Inicial {% endblock %} {% block content %}
       
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       {% else %}
-      <img src="{% static "imagens/error403.png" %}" alt="">
-      <h3 class="text-center">Você não tem nenhuma permissão liberada, solicite ao administrador a permissão a qual você faz parte!</h3>
+      <div class="d-flex flex-column align-items-center">
+        <img style="width: 650px;" src="{% static "imagens/error403.png" %}" alt="">
+        <h3 class="text-center">Você não tem nenhuma permissão para ver isso, solicite ao administrador a permissão a qual você faz parte!</h3>
+      </div>
       {% endif %}
       </section>
     </div>

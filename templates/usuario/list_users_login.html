@@ -6,6 +6,7 @@
 <div class="d-flex">
     {% include "sidebar.html" %}
     <div class="container my-5">
+        {% if perms.biddingContracts.view_userlogin %}
         {% include "messages.html" %}
         <h2 class="text-center mb-4">Lista de Acessos no Sistema</h2>
 
@@ -19,6 +20,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="data" aria-selected="false">Filtrar por Data</button>
+            </li>
+            <li>
+                <a class="text-muted ms-2" style="text-decoration:none;" href="."><i title="Resetar página" class="fa-solid fa-arrows-rotate"></i></a> <!-- ícone de resetar página -->
             </li>
         </ul>
 
@@ -111,7 +115,7 @@
                                     <tbody>
                                         {% for login in logins %}
                                             <tr>
-                                                <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+                                                <th class="align-middle" scope="row">{{ login.id }}</th>
                                                 <td class="align-middle" style="font-size:14px;">{{ login.user.username }}</td>
                                                 <td class="align-middle" style="font-size:14px;">{{ login.login_time }}</td>
                                             </tr>
@@ -125,11 +129,65 @@
             </div>
         </div>
 
+        <!-- Sessão de paginação -->
+        <ul class="pagination justify-content-center">
+
+            {% if page_obj.has_previous %} <!-- Páginação relacionada a página anterior -->
+
+                {% if request.GET.usuarios %} <!-- Paginação relacionada ao filtro de usuários -->
+                    <li class="page-item">
+                        <a href="?page=&usuarios={{ request.GET.usuarios }}" class="page-link">&laquo; Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ login.previous_page_number }}" class="page-link">Anterior</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}&usuarios={{ request.GET.usuarios }}" class="page-link">&laquo; Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ login.previous_page_number }}" class="page-link">Anterior</a>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+        
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
+        
+            {% if page_obj.has_next %} <!-- Paginação relacionada a próx página -->
+
+                {% if request.GET.usuarios %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}&usuarios={{ request.GET.usuarios }}" class="page-link">Próxima</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}&usuarios={{ request.GET.usuarios }}" class="page-link">Última &raquo;</a>
+                    </li>   
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Próxima</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Última &raquo;</a>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+        </ul>
+
         <div class="d-flex justify-content-center align-items-center mt-0">
             <a class="btn btn-secondary" href="{% url 'biddingContracts:index' %}">Voltar</a>
         </div>
     </div>
 </div>
+{% else %}
+<div class="d-flex flex-column align-items-center">
+    <img style="width: 650px;" src="{% static "imagens/error403.png" %}" alt="">
+    <h3 class="text-center">Você não tem nenhuma permissão para ver isso, solicite ao administrador a permissão a qual você faz parte!</h3>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block javascript %}

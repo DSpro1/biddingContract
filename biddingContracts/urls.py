@@ -14,7 +14,7 @@ urlpatterns = [
     path('delete/contract/<int:pk>/', views.ContractDeleteView.as_view(), name='delete_contracts'), # Deleta contratos
 
     # Fornecedores
-    path('fornecedores/', views.listFornecedores, name="fornecedores"), # Lista Fornecedores
+    path('fornecedores/', views.ListFornecedores.as_view(), name="fornecedores"), # Lista Fornecedores
     path('criar-fornecedor/', views.fornecedor_new, name='fornecedor_new'), # Cadastra Fornecedores
     path('modal-fornecedor/', views.modal_fornecedor, name="modal-fornecedor"), # Modal Fornecedor
     path('updt-fornecedor/<int:pk>/', views.FornecedorUpdate.as_view(), name='updateforn'), # Atualiza Fornecedor

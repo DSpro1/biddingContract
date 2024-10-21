@@ -61,7 +61,8 @@ def cadContrato(request, fornecedor_id):
 #         context={'form':form,'fornecedor_id':fornecedor_id}
 #         return render(request, "contrato_new.html", context)
     
-
+    
+# View que lista os contratos
 class ListContractsView(PermissionRequiredMixin, ListView):
     """
     Classe destinada a listar os contratos criados
@@ -70,6 +71,7 @@ class ListContractsView(PermissionRequiredMixin, ListView):
     template_name = "contratos/contratos.html"
     context_object_name = "contratos"
     permission_required = ["biddingContracts.view_contrato"]
+    #paginate_by = 5
 
     # Adicionando filtros ao object_list através do get_queryset
     def get_queryset(self):
@@ -300,13 +302,22 @@ def fornecedor_new(request):
         return render(request, 'fornecedor/fornecedor_new.html', {'form': form})
 
 
+
+# @login_required
+# @permission_required("biddingContracts.view_fornecedor")
+# def listFornecedores(request):
+#     fornecedores = Fornecedor.objects.all()
+#     context = {"fornecedores": fornecedores}
+#     return render(request, "fornecedor/fornecedores.html", context)
+
+
 # View que lista os fornecedores
-@login_required
-@permission_required("biddingContracts.view_fornecedor")
-def listFornecedores(request):
-    fornecedores = Fornecedor.objects.all()
-    context = {"fornecedores": fornecedores}
-    return render(request, "fornecedor/fornecedores.html", context)
+class ListFornecedores(ListView, PermissionRequiredMixin):
+    model = Fornecedor
+    template_name = "fornecedor/fornecedores.html"
+    context_object_name = "fornecedores"
+    paginate_by = 10
+    permission_required = ["biddingContracts.view_fornecedor"]
 
 
 # View que edita os fornecedores
@@ -434,6 +445,7 @@ class ListBiddingView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "licitacoes/list_licitacoes.html"
     context_object_name = "licitacoes"
     permission_required = ["biddingContracts.view_licitacao"]
+    paginate_by = 10
 
     # Adicionando filtros ao object_list através do get_queryset
     def get_queryset(self):
@@ -609,6 +621,7 @@ class listARPs(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     success_url= reverse_lazy('biddingContracts:atas')
     context_object_name = "atas"
     permission_required = ["biddingContracts.view_ataregistropreco"]
+    paginate_by = 10
 
 
 # View que edita ARPs
@@ -961,6 +974,7 @@ class ListNfe(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "notafiscal/notasFiscais.html"
     success_url = reverse_lazy("biddingContracts:notasfiscais")
     permission_required = ["biddingContracts.view_notafiscal"]
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         # Captura o valor de is_contract da URL
@@ -1140,8 +1154,8 @@ class ListRegister(ListView, PermissionRequiredMixin):
     model = RegistroExcluido
     template_name = "excluidos/registros_excluidos.html"
     context_object_name = "registros"
-    # paginate_by = 10
-    # ordering = ['-id']
+    paginate_by = 10
+    ordering = ['-id']
     permission_required = ["biddingContracts.view_registroexcluido"]
     
     
@@ -1175,12 +1189,14 @@ class ListRegister(ListView, PermissionRequiredMixin):
         return queryset
         
 
+# View que lista os logins na plataforma
 class UserLoginReportView(ListView, PermissionRequiredMixin):
     model = UserLogin
     template_name = 'usuario/list_users_login.html'
     context_object_name = 'logins'
     ordering = ['-login_time'] # Vai ordenar por data de login mais recente
     permission_required = ["biddingContracts.view_userlogin"]
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -1200,3 +1216,8 @@ class UserLoginReportView(ListView, PermissionRequiredMixin):
                 pass  # Ignora o filtro caso a data esteja errada
             
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        return context

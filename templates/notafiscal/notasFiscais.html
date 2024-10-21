@@ -83,9 +83,56 @@
         {% endif %}
             </tbody>
           </table>
+          <!-- Sessão de paginação -->
+          <ul class="pagination justify-content-center">
+
+            {% if page_obj.has_previous %} <!-- Páginação relacionada a página anterior -->
+
+                {% if request.GET.usuarios %} <!-- Paginação relacionada ao filtro de usuários -->
+                    <li class="page-item">
+                        <a href="?page=&usuarios={{ request.GET.usuarios }}" class="page-link">&laquo; Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ login.previous_page_number }}" class="page-link">Anterior</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}&usuarios={{ request.GET.usuarios }}" class="page-link">&laquo; Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ login.previous_page_number }}" class="page-link">Anterior</a>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+        
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
+        
+            {% if page_obj.has_next %} <!-- Paginação relacionada a próx página -->
+
+                {% if request.GET.usuarios %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}&usuarios={{ request.GET.usuarios }}" class="page-link">Próxima</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}&usuarios={{ request.GET.usuarios }}" class="page-link">Última &raquo;</a>
+                    </li>   
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Próxima</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Última &raquo;</a>
+                    </li>
+                {% endif %}
+
+            {% endif %}
+        </ul>
       <div class="d-flex justify-content-center flex-row-reverse gap-3">
         <a href="{% url "biddingContracts:index" %}" class="btn btn-dark">Voltar</a>
-        {% comment %} <a href="{% url "biddingContracts:new_notas" is_contract %}" class="btn btn-success">+ Adicionar</a> {% endcomment %} <!-- Não acho viável um botão que leve a uma opção sabendo que existe duas -->
+        {% comment %} <a href="{% url "biddingContracts:new_notas" is_contract %}" class="btn btn-success">+ Adicionar</a> {% endcomment %} <!-- Não acho viável um botão que leve a uma opção sabendo que existem duas -->
       </div>
   </div>
 </div>
